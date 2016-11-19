@@ -31,6 +31,7 @@ local.py
 conf/
 djangocosign/
 feedback/
+frontendapp/
 
 # ignore static files folders
 htdocs/eproweb/static/admin/*
