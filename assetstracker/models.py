@@ -41,6 +41,8 @@ class AssetType(CommonBaseAbstractModel):
     def __str__(self):
         return '%s' % self.item_type
 
+    class JSONAPIMeta:
+        resource_name = 'assettypes'
 
 
 class Category(CommonBaseAbstractModel):
@@ -51,6 +53,9 @@ class Category(CommonBaseAbstractModel):
 
     def __str__(self):
         return '%s' % self.category
+
+    class JSONAPIMeta:
+        resource_name = 'categories'
 
 
 class Subcategory(CommonBaseAbstractModel):
@@ -63,6 +68,8 @@ class Subcategory(CommonBaseAbstractModel):
     def __str__(self):
         return '%s' % self.subcategory
 
+    class JSONAPIMeta:
+        resource_name = 'subcategories'
 
 
 class Donor(CommonBaseAbstractModel):
@@ -74,6 +81,9 @@ class Donor(CommonBaseAbstractModel):
     def __str__(self):
         return '%s' % self.donor
 
+    class JSONAPIMeta:
+        resource_name = 'donors'
+
 
 class Status(CommonBaseAbstractModel):
     status = models.CharField(max_length=50, unique=True)
@@ -84,6 +94,8 @@ class Status(CommonBaseAbstractModel):
     def __str__(self):
         return '%s' % self.status
 
+    class JSONAPIMeta:
+        resource_name = 'statuses'
 
 class Asset(CommonBaseAbstractModel):
     country = models.ForeignKey(Country, related_name='items', null=False, blank=False, on_delete=models.CASCADE)
@@ -117,6 +129,7 @@ class Asset(CommonBaseAbstractModel):
             self.no = num_assets
         super(Asset, self).save(*args, **kwargs)
 
-
+    class JSONAPIMeta:
+        resource_name = 'assets'
 
 
