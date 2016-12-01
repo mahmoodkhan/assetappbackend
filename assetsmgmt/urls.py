@@ -17,10 +17,15 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 from rest_framework import routers
-from assetstracker import views
+from assetstracker import views, api
 
 router = routers.DefaultRouter(trailing_slash=False)
-router.register("assets", views.AssetViewSet)
+router.register("assets", api.AssetViewSet)
+router.register("assettypes", api.AssetTypeViewSet)
+router.register("categories", api.CategoryViewSet)
+router.register("subcategories", api.SubcategoryViewSet)
+router.register("donors", api.DonorViewSet)
+router.register("status", api.StatusViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
