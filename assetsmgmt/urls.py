@@ -29,7 +29,7 @@ router.register("status", api.StatusViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.index, name='index'),
+    url(r'^$', views.HomeView.as_view(), name='index'),
     url(r'^api/', include(router.urls)),
-    url(r'^.*$', views.index),
+    url(r'^.*$', views.HomeView.as_view(), name='ember'),
 ]

@@ -15,7 +15,7 @@ class AssetTypeSerializer(serializers.ModelSerializer):
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = AssetType
+        model = Category
         exclude = ("created_by", "updated_by", "created", "updated")
 
 

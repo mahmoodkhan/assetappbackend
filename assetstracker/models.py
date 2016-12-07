@@ -11,6 +11,9 @@ from django.core.exceptions import ValidationError
 
 from django.db.models import Q, Sum, Max, Min, Count
 
+from django.utils import timezone
+from django.utils.timezone import utc
+
 from djangocosign.models import UserProfile, Region, Country, Office
 
 class CommonBaseAbstractModel(models.Model):
@@ -36,10 +39,10 @@ class AssetType(CommonBaseAbstractModel):
     asset_type = models.CharField(max_length=50, unique=True)
 
     def __unicode__(self):
-        return u'%s' % self.item_type
+        return u'%s' % self.asset_type
 
     def __str__(self):
-        return '%s' % self.item_type
+        return '%s' % self.asset_type
 
     class JSONAPIMeta:
         resource_name = 'assettypes'
