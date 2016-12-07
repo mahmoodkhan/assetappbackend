@@ -29,7 +29,11 @@ router.register("status", api.StatusViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.HomeView.as_view(), name='index'),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include(router.urls)),
+    url(r'^api/docs/', views.schema_view),
+
+    url(r'^$', views.HomeView.as_view(), name='index'),
+
     url(r'^.*$', views.HomeView.as_view(), name='ember'),
 ]

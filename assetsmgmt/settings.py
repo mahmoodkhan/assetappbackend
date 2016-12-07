@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_json_api',
+    'rest_framework_swagger',
     'djangocosign',
     'assetstracker',
 ]
