@@ -32,6 +32,7 @@ conf/
 djangocosign/
 feedback/
 frontendapp/
+static/
 
 # ignore static files folders
 htdocs/eproweb/static/admin/*
