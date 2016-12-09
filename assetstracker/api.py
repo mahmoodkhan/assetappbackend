@@ -1,6 +1,11 @@
 from rest_framework import viewsets
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from .models import *
 from .serializers import *
+
+class UserViewSet(viewsets.ModelViewSet):
+    model = User
+    serializer_class = UserSerializer
 
 
 class AssetViewSet(viewsets.ModelViewSet):
@@ -14,6 +19,7 @@ class AssetViewSet(viewsets.ModelViewSet):
 class AssetTypeViewSet(viewsets.ModelViewSet):
     queryset = AssetType.objects.all()
     serializer_class = AssetTypeSerializer
+    authentication_classes = (JSONWebTokenAuthentication, )
 
 
 class CategoryViewSet(viewsets.ModelViewSet):

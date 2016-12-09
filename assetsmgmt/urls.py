@@ -17,9 +17,11 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 from rest_framework import routers
+from rest_framework_jwt.views import obtain_jwt_token
 from assetstracker import views, api
 
 router = routers.DefaultRouter(trailing_slash=False)
+router.register("users", api.UserViewSet, base_name="users")
 router.register("assets", api.AssetViewSet)
 router.register("assettypes", api.AssetTypeViewSet)
 router.register("categories", api.CategoryViewSet)
@@ -30,6 +32,7 @@ router.register("status", api.StatusViewSet)
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api-token-auth/', obtain_jwt_token),
     url(r'^api/', include(router.urls)),
     url(r'^api/docs/', views.schema_view),
 
