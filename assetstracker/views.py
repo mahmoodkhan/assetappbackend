@@ -18,7 +18,7 @@ def schema_view(request):
 class HomeView(TemplateView):
     template_name = 'index.html'
 
-    def render_to_response(self, context, **response_kwargs):
+    def render_to_response2(self, context, **response_kwargs):
         response = super(HomeView, self).render_to_response(context, **response_kwargs)
         response.set_cookie(key="jwt", value=convert_sessionid_to_jwt(self.request.user), domain="localhost")
         return response
