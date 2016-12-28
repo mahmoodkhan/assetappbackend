@@ -2,6 +2,10 @@ from rest_framework import viewsets
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+
+from rest_framework_json_api.parsers import JSONParser
+from rest_framework_json_api.renderers import JSONRenderer
+
 from .models import *
 from .serializers import *
 
@@ -30,6 +34,8 @@ class CategoryViewSet(viewsets.ModelViewSet):
     authentication_classes = (JSONWebTokenAuthentication, )
     #authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+    parser_classes = (JSONParser,)
+    renderer_classes = (JSONRenderer,)
 
 
 class SubcategoryViewSet(viewsets.ModelViewSet):
