@@ -29,6 +29,8 @@ router.register("categories", api.CategoryViewSet)
 router.register("subcategories", api.SubcategoryViewSet)
 router.register("donors", api.DonorViewSet)
 router.register("status", api.StatusViewSet)
+router.register("countries", api.CountryViewSet, base_name='countries')
+router.register("offices", api.OfficeViewSet, base_name='offices')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
