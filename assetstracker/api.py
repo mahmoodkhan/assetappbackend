@@ -56,9 +56,9 @@ class AssetTypeViewSet(viewsets.ModelViewSet):
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    authentication_classes = (JSONWebTokenAuthentication, )
+    #authentication_classes = (JSONWebTokenAuthentication, )
     #authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    permission_classes = []#(IsAuthenticated,)
     parser_classes = (JSONParser,)
     renderer_classes = (JSONRenderer,)
 

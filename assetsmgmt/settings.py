@@ -57,13 +57,20 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-CORS_ORIGIN_ALLOW_ALL = True
-"""
+#CORS_ORIGIN_ALLOW_ALL = False
+
 CORS_ORIGIN_WHITELIST = (
     'localhost:8000',
-    '127.0.0.1:8000',
-    '127.0.0.1:4200',
+    #'127.0.0.1:8000',
+    #'127.0.0.1:4200',
 )
+"""
+var urll = 'http://localhost:8000/api/categories';
+var xhr = new XMLHttpRequest();
+xhr.open('GET', urll);
+xhr.setRequestHeader('Origin', 'bla.com');
+xhr.onload = function() { alert(xhr.responseText); };
+xhr.send();
 """
 
 ROOT_URLCONF = 'assetsmgmt.urls'
