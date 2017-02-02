@@ -36,13 +36,13 @@ class CommonBaseAbstractModel(models.Model):
 
 
 class AssetType(CommonBaseAbstractModel):
-    asset_type = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50, unique=True)
 
     def __unicode__(self):
-        return u'%s' % self.asset_type
+        return u'%s' % self.name
 
     def __str__(self):
-        return '%s' % self.asset_type
+        return '%s' % self.name
 
     class JSONAPIMeta:
         resource_name = 'assettypes'
