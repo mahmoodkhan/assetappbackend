@@ -20,7 +20,7 @@ class OfficeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Office
-        fields = ('id', 'longname', 'name')
+        fields = ('id', 'country', 'longname', 'name')
 
     def get_longname(self, obj):
         return obj.long_name

@@ -1,3 +1,4 @@
+import re
 from rest_framework import viewsets
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.authentication import TokenAuthentication
@@ -19,7 +20,27 @@ class CountryViewSet(viewsets.ModelViewSet):
 
 
 class OfficeViewSet(viewsets.ModelViewSet):
-    queryset = Office.objects.all()
+    def get_queryset(self):
+        if hasattr(self.request, 'query_params'):
+            params = dict(self.request.query_params)
+            for key, val in params.iteritems():
+                field = re.search(r"\[([A-Za-z0-9_]+)\]", key).group(1)
+                print(field)
+                if len(val) > 1:
+                    for v in val:
+                        print(v)
+                else:
+                    print(val[0])
+            """
+
+            num_params = len(params)
+            for num in range(0, num_params):
+                param = params.popitem()
+                print(param[0][0])
+            print(dict(self.request.query_params).popitem()[1][0])
+            """
+        return Office.objects.all()
+
     serializer_class = OfficeSerializer
     authentication_classes = (JSONWebTokenAuthentication, )
     parser_classes = (JSONParser,)
