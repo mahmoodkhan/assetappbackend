@@ -104,7 +104,7 @@ class Asset(CommonBaseAbstractModel):
     country = models.ForeignKey(Country, related_name='items', null=False, blank=False, on_delete=models.CASCADE)
     office = models.ForeignKey(Office, related_name='items', null=True, blank=True, on_delete=models.DO_NOTHING)
     no = models.PositiveIntegerField(verbose_name='No', null=False, blank=False)
-    asset_type = models.ForeignKey(AssetType)
+    assettype = models.ForeignKey(AssetType)
     category = models.ForeignKey(Category)
     subcategory = models.ForeignKey(Subcategory)
     status = models.ForeignKey(Status)
@@ -115,8 +115,8 @@ class Asset(CommonBaseAbstractModel):
     sno1 = models.CharField(max_length=50, blank=True)
     sno2 = models.CharField(max_length=50, blank=True)
     accessories = models.CharField(max_length=254, null=True, blank=True)
-    pr_number = models.CharField(max_length=12, blank=True, null=True)
-    po_number = models.CharField(max_length=12, blank=True, null=True)
+    prnumber = models.CharField(max_length=12, blank=True, null=True)
+    ponumber = models.CharField(max_length=12, blank=True, null=True)
     notes = models.TextField(null=True, blank=True)
 
     def __unicode__(self):
