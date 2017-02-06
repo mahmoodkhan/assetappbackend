@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
-from rest_framework import serializers
+#from rest_framework import serializers
+from rest_framework_json_api import serializers
+from rest_framework_json_api.relations import ResourceRelatedField
 from .models import *
-from djangocosign.models import Country, Office, UserProfile
 
 
 class CountrySerializer(serializers.ModelSerializer):

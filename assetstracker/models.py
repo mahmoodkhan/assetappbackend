@@ -34,6 +34,19 @@ class CommonBaseAbstractModel(models.Model):
         super(CommonBaseAbstractModel, self).save(*args, **kwargs)
 
 
+class Country(Country):
+    class Meta:
+        proxy = True
+
+    class JSONAPIMeta:
+        resource_name = 'countries'
+
+class Office(Office):
+    class Meta:
+        proxy = True
+
+    class JSONAPIMeta:
+        resource_name = 'offices'
 
 class AssetType(CommonBaseAbstractModel):
     name = models.CharField(max_length=50, unique=True)

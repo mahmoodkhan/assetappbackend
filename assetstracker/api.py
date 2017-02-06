@@ -9,7 +9,7 @@ from rest_framework_json_api.renderers import JSONRenderer
 
 from .models import *
 from .serializers import *
-from djangocosign.models import Country, Office, UserProfile
+
 
 class CountryViewSet(viewsets.ModelViewSet):
     queryset = Country.objects.all()
