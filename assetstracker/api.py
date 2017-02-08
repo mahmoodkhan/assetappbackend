@@ -21,16 +21,22 @@ class CountryViewSet(viewsets.ModelViewSet):
 
 class OfficeViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
+        offices = Office.objects.all()
+        filters = {}
         if hasattr(self.request, 'query_params'):
             params = dict(self.request.query_params)
             for key, val in params.iteritems():
                 field = re.search(r"\[([A-Za-z0-9_]+)\]", key).group(1)
-                print(field)
+                #print(field)
                 if len(val) > 1:
                     for v in val:
-                        print(v)
+                        filters[field]=str(val[0])
+                        #print(v)
                 else:
-                    print(val[0])
+                    filters[field] = str(val[0])
+                    #print(val[0])
+            print(filters)
+            offices = offices.filter(**filters)
             """
 
             num_params = len(params)
@@ -39,7 +45,7 @@ class OfficeViewSet(viewsets.ModelViewSet):
                 print(param[0][0])
             print(dict(self.request.query_params).popitem()[1][0])
             """
-        return Office.objects.all()
+        return offices
 
     serializer_class = OfficeSerializer
     authentication_classes = (JSONWebTokenAuthentication, )

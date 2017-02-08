@@ -13,6 +13,7 @@ from django.db.models import Q, Sum, Max, Min, Count
 
 from django.utils import timezone
 from django.utils.timezone import utc
+from django.utils.encoding import python_2_unicode_compatible
 
 from djangocosign.models import UserProfile, Region, Country, Office
 
@@ -48,11 +49,9 @@ class Office(Office):
     class JSONAPIMeta:
         resource_name = 'offices'
 
+@python_2_unicode_compatible
 class AssetType(CommonBaseAbstractModel):
     name = models.CharField(max_length=50, unique=True)
-
-    def __unicode__(self):
-        return u'%s' % self.name
 
     def __str__(self):
         return '%s' % self.name
@@ -61,11 +60,9 @@ class AssetType(CommonBaseAbstractModel):
         resource_name = 'assettypes'
 
 
+@python_2_unicode_compatible
 class Category(CommonBaseAbstractModel):
     category = models.CharField(max_length=50, unique=True)
-
-    def __unicode__(self):
-        return u'%s' % self.category
 
     def __str__(self):
         return '%s' % self.category
@@ -74,12 +71,10 @@ class Category(CommonBaseAbstractModel):
         resource_name = 'categories'
 
 
+@python_2_unicode_compatible
 class Subcategory(CommonBaseAbstractModel):
     category = models.ForeignKey(Category, related_name='subcategories')
     subcategory = models.CharField(max_length=50, unique=True)
-
-    def __unicode__(self):
-        return u'%s' % self.subcategory
 
     def __str__(self):
         return '%s' % self.subcategory
@@ -88,11 +83,9 @@ class Subcategory(CommonBaseAbstractModel):
         resource_name = 'subcategories'
 
 
+@python_2_unicode_compatible
 class Donor(CommonBaseAbstractModel):
     donor = models.CharField(max_length=100)
-
-    def __unicode__(self):
-        return u'%s' % self.donor
 
     def __str__(self):
         return '%s' % self.donor
@@ -101,11 +94,9 @@ class Donor(CommonBaseAbstractModel):
         resource_name = 'donors'
 
 
+@python_2_unicode_compatible
 class Status(CommonBaseAbstractModel):
     status = models.CharField(max_length=50, unique=True)
-
-    def __unicode__(self):
-        return u'%s' % self.status
 
     def __str__(self):
         return '%s' % self.status
@@ -113,6 +104,8 @@ class Status(CommonBaseAbstractModel):
     class JSONAPIMeta:
         resource_name = 'statuses'
 
+
+@python_2_unicode_compatible
 class Asset(CommonBaseAbstractModel):
     country = models.ForeignKey(Country, related_name='items', null=False, blank=False, on_delete=models.CASCADE)
     office = models.ForeignKey(Office, related_name='items', null=True, blank=True, on_delete=models.DO_NOTHING)
@@ -131,9 +124,6 @@ class Asset(CommonBaseAbstractModel):
     prnumber = models.CharField(max_length=12, blank=True, null=True)
     ponumber = models.CharField(max_length=12, blank=True, null=True)
     notes = models.TextField(null=True, blank=True)
-
-    def __unicode__(self):
-        return u'%s-%s-%s' % (self.country.name, self.office.name, self.no)
 
     def __str__(self):
         return '%s-%s-%s' % (self.country.name, self.office.name, self.no)
