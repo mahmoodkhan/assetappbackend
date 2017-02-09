@@ -1,5 +1,7 @@
-import json
 import time
+from random import random, randint
+
+from django.conf import settings
 
 class DelayResponse(object):
     def __init__(self, get_response):
@@ -14,5 +16,6 @@ class DelayResponse(object):
 
         # Code to be executed for each request/response after
         # the view is called.
-        time.sleep(5)
+        if settings.DRF_DELAY_ENABLED == True:
+            time.sleep(randint(0,5))
         return response
