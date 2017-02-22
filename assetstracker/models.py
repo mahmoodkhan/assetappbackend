@@ -109,7 +109,7 @@ class Status(CommonBaseAbstractModel):
 class Asset(CommonBaseAbstractModel):
     country = models.ForeignKey(Country, related_name='items', null=False, blank=False, on_delete=models.CASCADE)
     office = models.ForeignKey(Office, related_name='items', null=True, blank=True, on_delete=models.DO_NOTHING)
-    no = models.PositiveIntegerField(verbose_name='No', null=False, blank=False)
+    no = models.PositiveIntegerField(verbose_name='No', default=1, null=True, blank=True)
     assettype = models.ForeignKey(AssetType)
     category = models.ForeignKey(Category)
     subcategory = models.ForeignKey(Subcategory)
@@ -131,7 +131,7 @@ class Asset(CommonBaseAbstractModel):
     def save(self, *args, **kwargs):
         if not self.id:
             num_assets = Asset.objects.filter(office=self.office.pk).aggregate(Max('no'))['no__max']
-            num_assets = 0 if num_assets == None else num_assets + 1
+            num_assets = 1 if num_assets == None else num_assets + 1
             self.no = num_assets
         super(Asset, self).save(*args, **kwargs)
 

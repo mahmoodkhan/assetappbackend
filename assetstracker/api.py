@@ -1,5 +1,6 @@
 import re
 from rest_framework import viewsets
+from rest_framework_json_api.views import ModelViewSet
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated

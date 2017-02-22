@@ -17,5 +17,5 @@ class DelayResponse(object):
         # Code to be executed for each request/response after
         # the view is called.
         if settings.DRF_DELAY_ENABLED == True:
-            time.sleep(randint(0,5))
+            time.sleep(randint(0,1))
         return response
