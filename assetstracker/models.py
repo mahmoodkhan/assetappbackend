@@ -118,19 +118,19 @@ class Asset(CommonBaseAbstractModel):
     brand = models.CharField(max_length=50, null=True, blank=True)
     model = models.CharField(max_length=50, null=True, blank=True)
     description = models.CharField(max_length=254, null=True, blank=True)
-    sno1 = models.CharField(max_length=50, blank=True)
-    sno2 = models.CharField(max_length=50, blank=True)
+    sno1 = models.CharField(max_length=50, null=True, blank=True)
+    sno2 = models.CharField(max_length=50, null=True, blank=True)
     accessories = models.CharField(max_length=254, null=True, blank=True)
     prnumber = models.CharField(max_length=12, blank=True, null=True)
     ponumber = models.CharField(max_length=12, blank=True, null=True)
     notes = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return '%s-%s-%s' % (self.country.name, self.office.name, self.no)
+        return '%s-%s' % (self.country.name, self.no)
 
     def save(self, *args, **kwargs):
         if not self.id:
-            num_assets = Asset.objects.filter(office=self.office.pk).aggregate(Max('no'))['no__max']
+            num_assets = Asset.objects.filter(country=self.country.pk).aggregate(Max('no'))['no__max']
             num_assets = 1 if num_assets == None else num_assets + 1
             self.no = num_assets
         super(Asset, self).save(*args, **kwargs)

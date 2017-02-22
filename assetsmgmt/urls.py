@@ -23,7 +23,7 @@ from assetstracker import views, api
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register("users", api.UserViewSet, base_name="users")
-router.register("assets", api.AssetViewSet)
+router.register("assets", api.AssetViewSet, base_name='assets')
 router.register("assettypes", api.AssetTypeViewSet)
 router.register("categories", api.CategoryViewSet)
 router.register("subcategories", api.SubcategoryViewSet)
