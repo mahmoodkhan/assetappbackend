@@ -25,33 +25,33 @@ class CountryViewSet(viewsets.ModelViewSet):
 
 class OfficeViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
+        """"
+        It parses querset that is formatted as:
+        /api/offices?filter[country][]=1&filter[country][]=2&filter[name][]=KBL&filter[name][]=KND&filter[long_name]=Kabul
+
+        To test is in Ember using Chrome Console:
+        console out an instance of the Ember.js store object in your Ember app
+        in the cosnsole window, right click on the store class and set it as Global
+        store = temp1
+        offices = store.query('office', {filter: {country: ["1", "2",], name: ['KBL', 'KND',],long_name: 'Kabul' }});
+        offices.forEach(function(o){console.log(o.get('name'));});
+        """
         offices = Office.objects.all()
         kwargs = {}
-        args = ()
+        args = []
         if hasattr(self.request, 'query_params'):
             params = dict(self.request.query_params)
             for key, val in params.iteritems():
+                # retrieves the field name from the filter query string.
                 field = re.search(r"\[([A-Za-z0-9_]+)\]", key).group(1)
+
+                # if the val is a list with > 1 values in it, then use Q objects
                 if len(val) > 1:
-                    """
-                    field_lookups = ('title__icontains', 'author__icontains',)
-                    q_list = [Q(**{f:3}) for f in field_lookups]
-                    print(reduce(or_, q_list))
-                    """
-                    args = reduce(or_, [Q(**{field:v}) for v in val] )
-                    print(args)
+                    args.append(reduce(or_, [Q(**{field:v}) for v in val] ) )
                 else:
                     kwargs[field] = str(val[0])
-            print(kwargs)
-            offices = offices.filter(*args, **kwargs)
-            """
 
-            num_params = len(params)
-            for num in range(0, num_params):
-                param = params.popitem()
-                print(param[0][0])
-            print(dict(self.request.query_params).popitem()[1][0])
-            """
+            offices = offices.filter(*args, **kwargs)
         return offices
 
     serializer_class = OfficeSerializer
