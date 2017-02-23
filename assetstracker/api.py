@@ -1,4 +1,7 @@
 import re
+from operator import and_, or_
+from django.db.models import Q
+
 from rest_framework import viewsets
 from rest_framework_json_api.views import ModelViewSet
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
@@ -23,21 +26,24 @@ class CountryViewSet(viewsets.ModelViewSet):
 class OfficeViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         offices = Office.objects.all()
-        filters = {}
+        kwargs = {}
+        args = ()
         if hasattr(self.request, 'query_params'):
             params = dict(self.request.query_params)
             for key, val in params.iteritems():
                 field = re.search(r"\[([A-Za-z0-9_]+)\]", key).group(1)
-                #print(field)
                 if len(val) > 1:
-                    for v in val:
-                        filters[field]=str(val[0])
-                        #print(v)
+                    """
+                    field_lookups = ('title__icontains', 'author__icontains',)
+                    q_list = [Q(**{f:3}) for f in field_lookups]
+                    print(reduce(or_, q_list))
+                    """
+                    args = reduce(or_, [Q(**{field:v}) for v in val] )
+                    print(args)
                 else:
-                    filters[field] = str(val[0])
-                    #print(val[0])
-            print(filters)
-            offices = offices.filter(**filters)
+                    kwargs[field] = str(val[0])
+            print(kwargs)
+            offices = offices.filter(*args, **kwargs)
             """
 
             num_params = len(params)
@@ -66,7 +72,10 @@ class AssetViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows Assets to be CRUDed
     """
-    queryset = Asset.objects.all()
+    def get_queryset(self):
+        user = self.request.user
+        return Asset.objects.filter(country=user.userprofile.country)
+
     serializer_class = AssetSerializer
     authentication_classes = (JSONWebTokenAuthentication, )
     parser_classes = (JSONParser,)
