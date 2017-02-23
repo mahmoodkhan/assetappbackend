@@ -75,7 +75,13 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 class SubcategoryViewSet(viewsets.ModelViewSet):
-    queryset = Subcategory.objects.all()
+    def get_queryset(self):
+        subcategories = Subcategory.objects.all()
+        if hasattr(self.request, 'query_params'):
+            args, kwargs = get_filters(dict(self.request.query_params))
+            subcategories = subcategories.filter(*args, **kwargs)
+        return subcategories
+
     serializer_class = SubcategorySerializer
     authentication_classes = (JSONWebTokenAuthentication, )
     parser_classes = (JSONParser,)
