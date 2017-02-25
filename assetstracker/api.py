@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import exceptions
 import rest_framework.parsers
 import rest_framework.renderers
+from rest_framework_json_api.utils import format_drf_errors
 import rest_framework_json_api.metadata
 import rest_framework_json_api.parsers
 import rest_framework_json_api.renderers
