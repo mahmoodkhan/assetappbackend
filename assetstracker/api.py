@@ -65,7 +65,12 @@ class OfficeViewSet(JsonApiViewSet):
 
 
 class UserViewSet(JsonApiViewSet):
-    model = User
+    def get_queryset(self):
+        users = User.objects.all()
+        if hasattr(self.request, 'query_params'):
+            args, kwargs = get_filters(dict(self.request.query_params))
+            users = users.filter(*args, **kwargs)
+        return users
     serializer_class = UserSerializer
     authentication_classes = (JSONWebTokenAuthentication, )
 

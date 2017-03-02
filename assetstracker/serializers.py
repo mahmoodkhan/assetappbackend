@@ -27,9 +27,14 @@ class OfficeSerializer(serializers.ModelSerializer):
         return obj.long_name
 
 class UserSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name')
+        fields = ('id', 'username', 'email', 'name')
+
+    def get_name(self, obj):
+        return "%s %s" % (obj.first_name, obj.last_name)
 
 class AssetSerializer(serializers.ModelSerializer):
     class Meta:

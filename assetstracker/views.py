@@ -37,12 +37,13 @@ def jwt_payload_handler(user):
         'user_id': user.pk,
         'email': user.email,
         'username': username,
+        'roles': list(user.groups.values('name')),
         'exp': datetime.utcnow() + api_settings.JWT_EXPIRATION_DELTA
     }
 
 def convert_sessionid_to_jwt(user):
-    """convert a session_id to a jwt.
-
+    """
+    convert a session_id to a jwt.
     """
     payload = jwt_payload_handler(user)
     return jwt_encode_handler(payload)
