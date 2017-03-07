@@ -64,6 +64,11 @@ class OfficeViewSet(JsonApiViewSet):
     authentication_classes = (JSONWebTokenAuthentication, )
 
 
+class GroupViewSet(JsonApiViewSet):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+
+
 class UserViewSet(JsonApiViewSet):
     def get_queryset(self):
         users = User.objects.all()
