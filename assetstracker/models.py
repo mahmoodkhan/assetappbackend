@@ -35,19 +35,40 @@ class CommonBaseAbstractModel(models.Model):
         super(CommonBaseAbstractModel, self).save(*args, **kwargs)
 
 
+@python_2_unicode_compatible
 class Country(Country):
     class Meta:
         proxy = True
 
+    def __str__(self):
+        return '%s' % self.name
+
     class JSONAPIMeta:
         resource_name = 'countries'
 
+
+@python_2_unicode_compatible
 class Office(Office):
     class Meta:
         proxy = True
 
+    def __str__(self):
+        return '%s' % self.name
+
     class JSONAPIMeta:
         resource_name = 'offices'
+
+
+@python_2_unicode_compatible
+class Custodian(UserProfile):
+    class Meta:
+        proxy = True
+
+    def __str__(self):
+        return '%s' % self.name
+
+    class JSONAPIMeta:
+        resource_name = 'custodians'
 
 @python_2_unicode_compatible
 class AssetType(CommonBaseAbstractModel):
@@ -110,11 +131,11 @@ class Asset(CommonBaseAbstractModel):
     country = models.ForeignKey(Country, related_name='items', null=False, blank=False, on_delete=models.CASCADE)
     office = models.ForeignKey(Office, related_name='items', null=True, blank=True, on_delete=models.DO_NOTHING)
     no = models.PositiveIntegerField(verbose_name='No', default=1, null=True, blank=True)
-    assettype = models.ForeignKey(AssetType)
-    category = models.ForeignKey(Category)
-    subcategory = models.ForeignKey(Subcategory)
-    status = models.ForeignKey(Status)
-    donor = models.ForeignKey(Donor)
+    assettype = models.ForeignKey(AssetType, related_name='items')
+    category = models.ForeignKey(Category, related_name='items')
+    subcategory = models.ForeignKey(Subcategory, related_name='items')
+    status = models.ForeignKey(Status, related_name='items')
+    donor = models.ForeignKey(Donor, related_name='items')
     brand = models.CharField(max_length=50, null=True, blank=True)
     model = models.CharField(max_length=50, null=True, blank=True)
     description = models.CharField(max_length=254, null=True, blank=True)
@@ -137,5 +158,21 @@ class Asset(CommonBaseAbstractModel):
 
     class JSONAPIMeta:
         resource_name = 'assets'
+
+@python_2_unicode_compatible
+class AssetIssuanceHistory(CommonBaseAbstractModel):
+    item = models.ForeignKey(Asset, related_name='item_history')
+    custodian = models.ForeignKey(Custodian, related_name='custodian_history')
+    notes = models.TextField(null=True, blank=True)
+    issued_by = models.ForeignKey(Custodian, related_name='issuedby_history')
+    issue_date = models.DateTimeField(editable=False, blank=True, null=True)
+    return_date = models.DateTimeField(editable=False, blank=True, null=True)
+
+    def __str__(self):
+        return "%s %s" % (self.item.description, self.custodian.name)
+
+    class JSONAPIMeta:
+        resource_name = 'assetissuancehistory'
+
 
 

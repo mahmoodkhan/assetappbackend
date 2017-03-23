@@ -44,6 +44,18 @@ class GroupSerializer(serializers.ModelSerializer):
         fields = ('id', 'name')
 
 
+class CustodianSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Custodian
+        exclude = ("modified_by", "created", "updated")
+
+
+class AssetIssuanceHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AssetIssuanceHistory
+        exclude = ("created_by", "updated_by", "created", "updated")
+
+
 class AssetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Asset

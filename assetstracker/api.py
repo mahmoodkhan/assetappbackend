@@ -80,6 +80,17 @@ class UserViewSet(JsonApiViewSet):
     authentication_classes = (JSONWebTokenAuthentication, )
 
 
+class CustodianViewSet(JsonApiViewSet):
+    def get_queryset(self):
+        custodians = Custodian.objects.all()
+        if hasattr(self.request, 'query_params'):
+            args, kwargs = get_filters(dict(self.request.query_params))
+            custodians = custodians.filter(*args, **kwargs)
+        return custodians
+    serializer_class = CustodianSerializer
+    authentication_classes = (JSONWebTokenAuthentication, )
+
+
 class AssetViewSet(JsonApiViewSet):
     """
     API endpoint that allows Assets to be CRUDed
@@ -90,6 +101,22 @@ class AssetViewSet(JsonApiViewSet):
 
     serializer_class = AssetSerializer
     authentication_classes = (JSONWebTokenAuthentication, )
+
+
+class AssetIssuanceHistoryViewSet(JsonApiViewSet):
+    """
+    API endpoint that allows Assets to be CRUDed
+    """
+    def get_queryset(self):
+        history = AssetIssuanceHistory.objects.all()
+        if hasattr(self.request, 'query_params'):
+            args, kwargs = get_filters(dict(self.request.query_params))
+            history = history.filter(*args, **kwargs)
+        return history
+
+    serializer_class = AssetIssuanceHistorySerializer
+    authentication_classes = (JSONWebTokenAuthentication, )
+
 
 
 class AssetTypeViewSet(JsonApiViewSet):

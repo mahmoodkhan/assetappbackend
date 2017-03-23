@@ -32,6 +32,8 @@ router.register("donors", api.DonorViewSet)
 router.register("statuses", api.StatusViewSet)
 router.register("countries", api.CountryViewSet, base_name='countries')
 router.register("offices", api.OfficeViewSet, base_name='offices')
+router.register("custodians", api.CustodianViewSet, base_name='custodians')
+router.register("assetissuancehistory", api.AssetIssuanceHistoryViewSet, base_name='assetissuancehistory')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
