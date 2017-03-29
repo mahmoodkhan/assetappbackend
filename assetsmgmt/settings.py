@@ -57,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'assetsmgmt.middleware.DelayResponse',
+    'assetsmgmt.middleware.WhoDoneItMiddleware',
 ]
 #CORS_ORIGIN_ALLOW_ALL = False
 
