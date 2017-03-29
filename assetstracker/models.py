@@ -191,9 +191,9 @@ class AssetIssuanceHistory(CommonBaseAbstractModel):
     asset = models.ForeignKey(Asset, related_name='asset_history')
     custodian = models.ForeignKey(Custodian, related_name='custodian_history')
     notes = models.TextField(null=True, blank=True)
-    issued_by = models.ForeignKey(Custodian, null=True, blank=True, related_name='issuedby_history')
-    issue_date = models.DateTimeField(editable=False, blank=True, null=True)
-    return_date = models.DateTimeField(editable=False, blank=True, null=True)
+    issuedby = models.ForeignKey(Custodian, null=True, blank=True, related_name='issuedby_history')
+    issuedate = models.DateTimeField(editable=False, blank=True, null=True)
+    returndate = models.DateTimeField(editable=False, blank=True, null=True)
 
     def __str__(self):
         return "%s %s" % (self.asset.description, self.custodian.name)
