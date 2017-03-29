@@ -45,9 +45,16 @@ class GroupSerializer(serializers.ModelSerializer):
 
 
 class CustodianSerializer(serializers.ModelSerializer):
+
+    empnum = serializers.SerializerMethodField()
+
+    def get_empnum(self, obj):
+        return obj.employee_number
+
     class Meta:
         model = Custodian
-        exclude = ("modified_by", "created", "updated")
+        #exclude = ("modified_by", "created", "updated")
+        fields = ('id', 'name', 'title', 'empnum', 'user', 'country', 'countries')
 
 
 class AssetIssuanceHistorySerializer(serializers.ModelSerializer):
