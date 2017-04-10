@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-from rest_framework.authentication import TokenAuthentication
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 from rest_framework import exceptions
@@ -32,6 +32,7 @@ class JsonApiViewSet(viewsets.ModelViewSet):
         rest_framework_json_api.renderers.JSONRenderer,
         rest_framework.renderers.BrowsableAPIRenderer,
     ]
+    authentication_classes = (JSONWebTokenAuthentication, TokenAuthentication, SessionAuthentication)
     metadata_class = rest_framework_json_api.metadata.JSONAPIMetadata
 
     def handle_exception(self, exc):
@@ -49,7 +50,7 @@ class JsonApiViewSet(viewsets.ModelViewSet):
 class CountryViewSet(JsonApiViewSet):
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
-    authentication_classes = (JSONWebTokenAuthentication, )
+
 
 
 class OfficeViewSet(JsonApiViewSet):
@@ -61,7 +62,6 @@ class OfficeViewSet(JsonApiViewSet):
         return offices
 
     serializer_class = OfficeSerializer
-    authentication_classes = (JSONWebTokenAuthentication, )
 
 
 class GroupViewSet(JsonApiViewSet):
@@ -77,7 +77,6 @@ class UserViewSet(JsonApiViewSet):
             users = users.filter(*args, **kwargs)
         return users
     serializer_class = UserSerializer
-    authentication_classes = (JSONWebTokenAuthentication, )
 
 
 class CustodianViewSet(JsonApiViewSet):
@@ -88,7 +87,6 @@ class CustodianViewSet(JsonApiViewSet):
             custodians = custodians.filter(*args, **kwargs)
         return custodians
     serializer_class = CustodianSerializer
-    authentication_classes = (JSONWebTokenAuthentication, )
 
 
 class AssetViewSet(JsonApiViewSet):
@@ -100,7 +98,6 @@ class AssetViewSet(JsonApiViewSet):
         return Asset.objects.filter(country=user.userprofile.country)
 
     serializer_class = AssetSerializer
-    authentication_classes = (JSONWebTokenAuthentication, )
 
 
 class AssetIssuanceHistoryViewSet(JsonApiViewSet):
@@ -115,21 +112,17 @@ class AssetIssuanceHistoryViewSet(JsonApiViewSet):
         return history
 
     serializer_class = AssetIssuanceHistorySerializer
-    authentication_classes = (JSONWebTokenAuthentication, )
 
 
 
 class AssetTypeViewSet(JsonApiViewSet):
     queryset = AssetType.objects.all()
     serializer_class = AssetTypeSerializer
-    authentication_classes = (JSONWebTokenAuthentication, )
 
 
 class CategoryViewSet(JsonApiViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    #authentication_classes = (JSONWebTokenAuthentication, )
-    #authentication_classes = (TokenAuthentication,)
     permission_classes = []#(IsAuthenticated,)
 
 
@@ -142,16 +135,13 @@ class SubcategoryViewSet(JsonApiViewSet):
         return subcategories
 
     serializer_class = SubcategorySerializer
-    authentication_classes = (JSONWebTokenAuthentication, )
 
 
 class DonorViewSet(JsonApiViewSet):
     queryset = Donor.objects.all()
     serializer_class = DonorSerializer
-    authentication_classes = (JSONWebTokenAuthentication, )
 
 
 class StatusViewSet(JsonApiViewSet):
     queryset = Status.objects.all()
     serializer_class = StatusSerializer
-    authentication_classes = (JSONWebTokenAuthentication, )

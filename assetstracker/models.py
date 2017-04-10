@@ -148,7 +148,7 @@ class Asset(CommonBaseAbstractModel):
     notes = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return '%s-%s' % (self.country.name, self.no)
+        return '%s-%s %s' % (self.country.iso_two_letters_code, self.no, self.description)
 
     def save(self, *args, **kwargs):
         if not self.id:
