@@ -11,12 +11,36 @@ import rest_framework_json_api.metadata
 import rest_framework_json_api.parsers
 import rest_framework_json_api.renderers
 
+from rest_framework_json_api.pagination import PageNumberPagination
+
 from .models import *
 from .serializers import *
 from .util import get_filters
 
 
 HTTP_422_UNPROCESSABLE_ENTITY = 422
+
+class LargeResultsSetPagination(PageNumberPagination):
+    page_size = 1000
+    page_size_query_param = 'page_size'
+    max_page_size = 10000
+
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 100
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
+
+
+class SmallResultsSetPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
+
+class TinyResultsSetPagination(PageNumberPagination):
+    page_size = 2
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
+
 
 class JsonApiViewSet(viewsets.ModelViewSet):
     """
@@ -34,6 +58,9 @@ class JsonApiViewSet(viewsets.ModelViewSet):
     ]
     authentication_classes = (JSONWebTokenAuthentication, TokenAuthentication, SessionAuthentication)
     metadata_class = rest_framework_json_api.metadata.JSONAPIMetadata
+
+
+
 
     def handle_exception(self, exc):
         if isinstance(exc, exceptions.ValidationError):
@@ -98,7 +125,7 @@ class AssetViewSet(JsonApiViewSet):
         return Asset.objects.filter(country=user.userprofile.country)
 
     serializer_class = AssetSerializer
-
+    pagination_class = TinyResultsSetPagination
 
 class AssetIssuanceHistoryViewSet(JsonApiViewSet):
     """

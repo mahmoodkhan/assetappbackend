@@ -18,12 +18,15 @@ def get_filters(params):
     args = []
 
     for key, val in params.iteritems():
-        # retrieves the field name from the filter query string.
-        field = re.search(r"\[([A-Za-z0-9_]+)\]", key).group(1)
+        try:
+            # retrieves the field name from the filter query string.
+            field = re.search(r"\[([A-Za-z0-9_]+)\]", key).group(1)
 
-        # if the val is a list with > 1 values in it, then use Q objects
-        if len(val) > 1:
-            args.append(reduce(or_, [Q(**{field:v}) for v in val] ) )
-        else:
-            kwargs[field] = str(val[0])
+            # if the val is a list with > 1 values in it, then use Q objects
+            if len(val) > 1:
+                args.append(reduce(or_, [Q(**{field:v}) for v in val] ) )
+            else:
+                kwargs[field] = str(val[0])
+        except Exception as e:
+            pass
     return (args, kwargs)
