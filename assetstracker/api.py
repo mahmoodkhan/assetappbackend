@@ -122,8 +122,11 @@ class AssetViewSet(JsonApiViewSet):
     """
     def get_queryset(self):
         user = self.request.user
-        return Asset.objects.filter(country=user.userprofile.country)
-
+        assets = Asset.objects.filter(country=user.userprofile.country)
+        if hasattr(self.request, 'query_params'):
+            args, kwargs = get_filters(dict(self.request.query_params))
+            assets = assets.filter(*args, **kwargs)
+        return assets
     serializer_class = AssetSerializer
     pagination_class = TinyResultsSetPagination
 
@@ -153,22 +156,9 @@ class CategoryViewSet(JsonApiViewSet):
     permission_classes = []#(IsAuthenticated,)
 
 
-class SubcategoryViewSet(JsonApiViewSet):
-    def get_queryset(self):
-        subcategories = Subcategory.objects.all()
-        if hasattr(self.request, 'query_params'):
-            args, kwargs = get_filters(dict(self.request.query_params))
-            subcategories = subcategories.filter(*args, **kwargs)
-        return subcategories
-
-    serializer_class = SubcategorySerializer
-
 
 class DonorViewSet(JsonApiViewSet):
     queryset = Donor.objects.all()
     serializer_class = DonorSerializer
 
 
-class StatusViewSet(JsonApiViewSet):
-    queryset = Status.objects.all()
-    serializer_class = StatusSerializer

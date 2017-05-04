@@ -4,8 +4,6 @@ from .models import *
 admin.site.register(Asset)
 admin.site.register(AssetType)
 admin.site.register(Donor)
-admin.site.register(Status)
 admin.site.register(Category)
-admin.site.register(Subcategory)
 admin.site.register(Custodian)
 admin.site.register(AssetIssuanceHistory)

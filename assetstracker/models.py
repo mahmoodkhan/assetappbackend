@@ -117,25 +117,12 @@ class Donor(CommonBaseAbstractModel):
 
 
 @python_2_unicode_compatible
-class Status(CommonBaseAbstractModel):
-    status = models.CharField(max_length=50, unique=True)
-
-    def __str__(self):
-        return '%s' % self.status
-
-    class JSONAPIMeta:
-        resource_name = 'statuses'
-
-
-@python_2_unicode_compatible
 class Asset(CommonBaseAbstractModel):
     country = models.ForeignKey(Country, related_name='items', null=False, blank=False, on_delete=models.CASCADE)
     office = models.ForeignKey(Office, related_name='items', null=True, blank=True, on_delete=models.DO_NOTHING)
     no = models.PositiveIntegerField(verbose_name='No', default=1, null=True, blank=True)
     assettype = models.ForeignKey(AssetType, related_name='items')
     category = models.ForeignKey(Category, related_name='items')
-    subcategory = models.ForeignKey(Subcategory, related_name='items')
-    status = models.ForeignKey(Status, related_name='items')
     donor = models.ForeignKey(Donor, related_name='items')
     brand = models.CharField(max_length=50, null=True, blank=True)
     model = models.CharField(max_length=50, null=True, blank=True)
@@ -146,6 +133,9 @@ class Asset(CommonBaseAbstractModel):
     prnumber = models.CharField(max_length=12, blank=True, null=True)
     ponumber = models.CharField(max_length=12, blank=True, null=True)
     notes = models.TextField(null=True, blank=True)
+    disposed = models.BooleanField(default=False)
+    broken = models.BooleanField(default=False)
+    custodian = models.ForeignKey(Custodian, null=True, blank=True)
 
     def __str__(self):
         return '%s-%s %s' % (self.country.iso_two_letters_code, self.no, self.description)

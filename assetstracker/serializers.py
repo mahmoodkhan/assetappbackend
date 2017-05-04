@@ -81,19 +81,8 @@ class CategorySerializer(serializers.ModelSerializer):
         exclude = ("created_by", "updated_by", "created", "updated")
 
 
-class SubcategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Subcategory
-        exclude = ("created_by", "updated_by", "created", "updated")
-
-
 class DonorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Donor
         exclude = ("created_by", "updated_by", "created", "updated")
 
-
-class StatusSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Status
-        exclude = ("created_by", "updated_by", "created", "updated")
